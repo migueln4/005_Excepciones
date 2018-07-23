@@ -3,17 +3,22 @@ package com.cice.ejercicios.ejercicio1;
 public class Main {
 
     final static char[] LETRAS = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','ñ','o','p','q','r','s','t','u','v','w','x','y','z'};
-    final static char[] OTROS_CARACTERES = {' ','1','2','3','4','5','6','7','8','9','0','.',',',';','¿','?','¡','!','-','"','\''};
+    final static char[] OTROS_CARACTERES = {' ','1','2','3','4','5','6','7','8','9','0','.',',',';','¿','?','¡','!','-','"','\'','@',':','\n'};
     final static char[] VOCALES_TILDADAS = {'á','é','í','ó','ú'};
 
     public static void main(String[] args) {
-        System.out.println(cesar("zASA 1 zapato",15));
+        System.out.println(cesar("zASA 1 zapato",3500));
         System.out.println(cesar("ñ",250));
         String cosa = "ÁÉÍÓÚ";
         System.out.println(cesar(cosa,10));
-        System.out.println(cesar("Esta es una cadena con tildes, ¡qué dislate!",15));
-        System.out.println(retroCesar("ñoho 1 ñoeoid",15));
-        System.out.println(retroCesar("kñryé",10));
+        System.out.println(cesar("Esta es una cadena con 'tildes', ¡qué dislate!",15));
+        //System.out.println((LETRAS.length-1)*2);
+        //System.out.println(((10-50)+LETRAS.length) % LETRAS.length);
+        System.out.println(retroCesar("pqjq 1 pqgqkf",3500));
+        //System.out.println(retroCesar("kñryé",10));
+        String cosa2 = cesar("Mi correo electrónico es:\n miguel@negrillismo.com",25);
+        System.out.println(cosa2);
+        System.out.println(retroCesar(cosa2,25));
     }
 
     public static String cesar(String s,int n) {
@@ -43,16 +48,24 @@ public class Main {
         for (int i=0; i<s.length(); i++) {
             letra = s.charAt(i);
             if(esVocalConTilde(letra)) {
-                indice = ((comprobarIndiceVocalTildada(letra)-n)+LETRAS.length) % LETRAS.length;
+                indice = incrementoCorrecto((comprobarIndiceVocalTildada(letra)-n));
                 salida.append(indiceConTildes(indice));
             } else if(!esOtroCaracter(letra)) {
-                indice = ((comprobarIndice(letra)-n)+LETRAS.length) % LETRAS.length;
+                //indice = ((comprobarIndice(letra)-n)+LETRAS.length) % LETRAS.length;
+                indice = incrementoCorrecto((comprobarIndice(letra)-n));
                 salida.append(LETRAS[indice]);
             } else
                 salida.append(letra);
         }
         return salida.toString();
     }
+
+
+    public static int incrementoCorrecto(int n) {
+        while(n<0)
+            n+=LETRAS.length;
+        return n;
+        }
 
     public static char indiceConTildes(int n) {
         char salida;
